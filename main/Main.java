@@ -9,6 +9,10 @@ public class Main {
     private Timer timer;
     private Input input;
 
+    private static float unlerp(float a, float b, float r){
+        return (r-a)/(b-a);
+    }
+
     public static void main(String[] args){
         new Main().gameLoop();
     }
