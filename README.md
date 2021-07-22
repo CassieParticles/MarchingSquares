@@ -1,4 +1,4 @@
 # MarchingSquares
 MarchingSquaresImplementation
 
-Marching squares implementation to use and learn from in future
+An implementation of marching squares to better visualise areas above and below a threshold in 2D. 
