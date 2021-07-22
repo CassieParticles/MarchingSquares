@@ -9,13 +9,10 @@ public class Tile {
     private Vector2f position;
     private int size;
 
-    private final float[] corners;
-
-    private final Mesh mesh;
+    private Mesh mesh;
 
     public Tile(Vector2f position, float[] corners, float threshold, MeshGenerator generator, int size){
         this.position=new Vector2f(position);
-        this.corners=corners;
         this.size=size;
 
         this.mesh=generator.genSquare(corners[0],corners[1],corners[2],corners[3],threshold);
@@ -23,6 +20,11 @@ public class Tile {
 
     public Tile(float[] corners, float threshold, MeshGenerator generator, int size){
         this(new Vector2f(0,0),corners,threshold,generator,size);
+    }
+
+    public void updateMesh(float[] corners, float threshold, MeshGenerator generator){
+        mesh.cleanup();
+        mesh=generator.genSquare(corners[0],corners[1],corners[2],corners[3],threshold);
     }
 
     public void render(Program program){
@@ -56,9 +58,5 @@ public class Tile {
 
     public Mesh getMesh(){
         return mesh;
-    }
-
-    public float[] getCorners(){
-        return corners;
     }
 }
