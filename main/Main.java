@@ -1,13 +1,18 @@
 package MarchingSquares.main;
 
 import MarchingSquares.main.generation.MeshGenerator;
+import MarchingSquares.main.generation.Tile;
 import MarchingSquares.rendering.Program;
 import MarchingSquares.rendering.Shader;
 import MarchingSquares.rendering.mesh.Mesh;
 import MarchingSquares.utils.FileHandling;
 import MarchingSquares.utils.Timer;
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL46;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
     private Window window;
@@ -17,7 +22,12 @@ public class Main {
 
     private Program program;
 
-    private Mesh mesh;
+    private Random rand;
+
+    private float[][] values;
+    private int size=100;
+
+    private Tile[] tiles;
 
     private static float unlerp(float a, float b, float r){
         return (r-a)/(b-a);
@@ -43,25 +53,32 @@ public class Main {
         timer=new Timer(60,60); //UPS,FPS
         input=new Input();
         gen=new MeshGenerator();
+        rand=new Random();
 
-        float threshold=0.4f;
+        float threshold=0.83f;
 
         window.init();
         input.init(window);
+        values=new float[size+1][size+1];
+        tiles=new Tile[size*size];
 
-        float[] vertices=new float[]{
-                0,1,
-                1,1,
-                1,0,
-                0,0
-        };
+        for(int x=0;x<size+1;x++){
+            for(int y=0;y<size+1;y++){
+                float val= rand.nextFloat();
+                values[x][y]=val;
+            }
+        }
 
-        int[] indices=new int[]{
-                0,1,2,
-                0,2,3
-        };
-
-        mesh=gen.genSquare(0.75f,0.2f,0.6f,0.3f,threshold);
+        for(int x=0;x<size;x++){
+            for(int y=0;y<size;y++){
+                tiles[x*size+y]=new Tile(new Vector2f(x,y),new float[]{
+                        values[x][y+1],
+                        values[x+1][y+1],
+                        values[x+1][y],
+                        values[x][y]},
+                        threshold,gen,size);
+            }
+        }
 
         program=new Program();
 
@@ -71,6 +88,9 @@ public class Main {
         });
 
         program.link();
+
+        program.createUniform("meshPos");
+        program.createUniform("size");
 
         GL46.glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 
@@ -98,7 +118,9 @@ public class Main {
         window.loop();
         GL46.glClear(GL46.GL_COLOR_BUFFER_BIT | GL46.GL_DEPTH_BUFFER_BIT);
 
-        mesh.render(program);
+        for(Tile tile:tiles){
+            tile.render(program);
+        }
     }
 
     public void cleanup(){
@@ -106,7 +128,9 @@ public class Main {
         window.cleanup();
 
         program.cleanup();
-        mesh.cleanup();
+        for(Tile tile:tiles){
+            tile.cleanup();
+        }
     }
 
 }

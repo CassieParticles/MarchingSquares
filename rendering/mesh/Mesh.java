@@ -52,7 +52,7 @@ public class Mesh {
     
     
     public void render(Program program){
-    	program.useProgram();
+
     	
     	GL46.glBindVertexArray(getVaoId());
     	 

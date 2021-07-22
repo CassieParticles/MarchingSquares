@@ -2,6 +2,10 @@
 
 layout(location=0) in vec2 position;
 
+uniform vec2 meshPos;
+uniform int size;
+
 void main() {
-    gl_Position=vec4(position,0,1);
+    vec2 newPos=(position+meshPos)/size;
+    gl_Position=vec4(newPos*2-1,0,1);
 }
