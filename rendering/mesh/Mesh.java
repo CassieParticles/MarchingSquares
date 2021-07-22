@@ -16,7 +16,7 @@ public class Mesh {
 
     private int vertexCount;
 
-    public Mesh(float[] vertices, int[] indices, float[] textureCoords, float[] colours){
+    public Mesh(float[] vertices, int[] indices){
         vertexCount=indices.length;
 
         FloatBuffer verticesBuffer=null;
@@ -64,7 +64,7 @@ public class Mesh {
 
         GL46.glBindVertexArray(0);
         
-        program.unlinkProgram();
+        program.detachProgram();
     }
     
     

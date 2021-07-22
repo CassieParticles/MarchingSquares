@@ -22,6 +22,10 @@ public class Program {
 
     private final Map<String,Integer> uniforms;
 
+    public Program() throws Exception {
+        this("");
+    }
+
     public Program(String name) throws Exception{
         this.programName=name;
         programId = GL46.glCreateProgram();
@@ -33,9 +37,9 @@ public class Program {
     }
 
     public void attachShaders(Shader[] shaders){
-        for(int i=0;i< shaders.length;i++){
-            this.shaders.add(shaders[i]);
-            GL46.glAttachShader(programId, shaders[i].getId());
+        for(Shader shader:shaders){
+            this.shaders.add(shader);
+            GL46.glAttachShader(programId,shader.getId());
         }
     }
 
@@ -64,7 +68,7 @@ public class Program {
         GL46.glUseProgram(programId);
     }
 
-    public void unlinkProgram(){
+    public void detachProgram(){
         GL46.glUseProgram(0);
     }
 

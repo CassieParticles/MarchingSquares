@@ -1,12 +1,15 @@
 package MarchingSquares.main.generation;
 
-import MarchingSquares.rendering.Mesh;
+import MarchingSquares.rendering.mesh.Mesh;
 
 import java.util.ArrayList;
 
 public class MeshGenerator {
 
     private float unlerp(float a, float b, float r){    //value a should be the "0" value
+        if(b-a==0){
+            return 0;
+        }
         return (r-a)/(b-a);
     }
 
@@ -18,7 +21,7 @@ public class MeshGenerator {
     3--2    0
      */
 
-    private Mesh genSquare(float c0, float c1, float c2, float c3, float threshold){
+    public Mesh genSquare(float c0, float c1, float c2, float c3, float threshold){
         int index=0;
 
         boolean[] activeCorners=new boolean[]{
@@ -35,7 +38,7 @@ public class MeshGenerator {
 
         ArrayList<Float> vertices=new ArrayList<>();
 
-        if(activeCorners[0]){   //4 corners
+        if(activeCorners[0]){
             vertices.add(0f);
             vertices.add(1f);
         }if(activeCorners[1]){
@@ -48,7 +51,8 @@ public class MeshGenerator {
             vertices.add(0f);
             vertices.add(0f);
         }
-        if(activeCorners[0]!=activeCorners[1]){ //4 sides
+
+        if(activeCorners[0]!=activeCorners[1]){
             vertices.add(unlerp(c0,c1,threshold));
             vertices.add(1f);
         }if(activeCorners[1]!=activeCorners[2]){
@@ -68,8 +72,8 @@ public class MeshGenerator {
             verticesNew[i]=vertices.get(i);
         }
 
-        Mesh mesh=new Mesh(verticesNew,indexArray.getIndices(index));
+        int[] indices= indexArray.getIndices(index);
 
-        return mesh;
+        return new Mesh(verticesNew,indices);
     }
 }
