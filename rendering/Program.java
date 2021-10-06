@@ -1,4 +1,4 @@
-package MarchingSquares.rendering;
+package rendering;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;

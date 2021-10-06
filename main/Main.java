@@ -1,17 +1,18 @@
-package MarchingSquares.main;
+package main;
 
-import MarchingSquares.main.generation.MeshGenerator;
-import MarchingSquares.main.generation.Tile;
-import MarchingSquares.main.generation.Values;
-import MarchingSquares.rendering.Program;
-import MarchingSquares.rendering.Shader;
-import MarchingSquares.utils.FileHandling;
-import MarchingSquares.utils.Timer;
+import java.util.Random;
+
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL46;
 
-import java.util.Random;
+import main.generation.MeshGenerator;
+import main.generation.Tile;
+import main.generation.Values;
+import rendering.Program;
+import rendering.Shader;
+import utils.FileHandling;
+import utils.Timer;
 
 public class Main {
     private Window window;
@@ -25,13 +26,8 @@ public class Main {
 
     private Values values;
     private int size=30;
-    private float threshold=0.45f;
 
     private Tile[] tiles;
-
-    private static float unlerp(float a, float b, float r){
-        return (r-a)/(b-a);
-    }
 
     public static void main(String[] args){
         new Main().gameLoop();
@@ -69,7 +65,7 @@ public class Main {
                         values.getVal(x+1,y+1),
                         values.getVal(x+1,y),
                         values.getVal(x,y)},
-                        threshold,gen,size);
+                        gen,size);
                 tiles[x*size+y]=tile;
             }
         }
@@ -77,8 +73,8 @@ public class Main {
         program=new Program();
 
         program.attachShaders(new Shader[]{
-                new Shader(FileHandling.loadResource("src/MarchingSquares/rendering/glsl/meshes/vertex.glsl"),GL46.GL_VERTEX_SHADER),
-                new Shader(FileHandling.loadResource("src/MarchingSquares/rendering/glsl/meshes/fragment.glsl"),GL46.GL_FRAGMENT_SHADER),
+                new Shader(FileHandling.loadResource("src/rendering/glsl/meshes/vertex.glsl"),GL46.GL_VERTEX_SHADER),
+                new Shader(FileHandling.loadResource("src/rendering/glsl/meshes/fragment.glsl"),GL46.GL_FRAGMENT_SHADER),
         });
 
         program.link();
@@ -99,7 +95,7 @@ public class Main {
                                 values.getVal(x+1,y+1),
                                 values.getVal(x+1,y),
                                 values.getVal(x,y)},
-                        threshold,gen);
+                        gen);
             }
         }
     }
@@ -111,7 +107,7 @@ public class Main {
                             values.getVal(x+1,y+1),
                             values.getVal(x+1,y),
                             values.getVal(x,y)},
-                    threshold,gen);
+                    gen);
         }else{
             System.out.println("Gameing");
         }
@@ -132,14 +128,9 @@ public class Main {
     public void update(){
         if(input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)){
             window.close();
-        }if(input.isKeyDown(GLFW.GLFW_KEY_UP)){
-            threshold+=0.01f;
-            updateAllMeshes();
-        }
-        if(input.isKeyDown(GLFW.GLFW_KEY_DOWN)){
-            threshold-=0.01f;
-            updateAllMeshes();
-        }if(input.isMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)){
+        }    
+       
+            if(input.isMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)){
             float[] mousePosNormalised=new float[]{input.getMousePos()[0]/ (float)window.getWidth(),1-input.getMousePos()[1]/ (float)window.getHeight()};
             int x= (int) Math.floor(mousePosNormalised[0]*size);
             int y= (int) Math.floor(mousePosNormalised[1]*size);

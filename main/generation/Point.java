@@ -1,4 +1,4 @@
-package MarchingSquares.main.generation;
+package main.generation;
 
 public class Point {
     private float value;

@@ -1,4 +1,4 @@
-package MarchingSquares.rendering.mesh;
+package rendering.mesh;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -6,7 +6,8 @@ import java.nio.IntBuffer;
 import org.lwjgl.opengl.GL46;
 import org.lwjgl.system.MemoryUtil;
 
-import MarchingSquares.rendering.Program;
+import rendering.Program;
+
 
 public class Mesh {
 

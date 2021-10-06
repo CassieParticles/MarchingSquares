@@ -1,4 +1,4 @@
-package MarchingSquares.utils;
+package utils;
 
 public class Timer {
     private final double updateTime;

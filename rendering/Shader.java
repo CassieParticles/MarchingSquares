@@ -1,4 +1,4 @@
-package MarchingSquares.rendering;
+package rendering;
 
 import org.lwjgl.opengl.GL46;
 

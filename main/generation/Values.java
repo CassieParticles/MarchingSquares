@@ -1,4 +1,4 @@
-package MarchingSquares.main.generation;
+package main.generation;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,7 +14,7 @@ public class Values {
     public void init(){
         for(int x=0;x<size+1;x++){
             for(int y=0;y<size+1;y++){
-                float val= ThreadLocalRandom.current().nextFloat();
+                float val= ThreadLocalRandom.current().nextFloat()-0.5f;
                 values[x][y]=val;
             }
         }

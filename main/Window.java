@@ -1,4 +1,4 @@
-package MarchingSquares.main;
+package main;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL46;
